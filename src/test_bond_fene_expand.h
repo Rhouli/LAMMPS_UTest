@@ -1,5 +1,5 @@
 
-/* Skylar Rudolph
+/* Author: Author: Ryan Houlihan
  * BondFENEExpandTest()
  * Header File for the Fene Bond Tests....
  *

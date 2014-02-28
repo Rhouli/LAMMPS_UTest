@@ -1,4 +1,4 @@
-/* Ryan Houlihan
+/* Author: Ryan Houlihan
  * BondHybridTest():
  *
  * The following code tests bond_style bond_harmonic in various ways:

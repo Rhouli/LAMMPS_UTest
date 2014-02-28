@@ -1,4 +1,4 @@
-/* Ryan Houlihan
+/* Author: Ryan Houlihan
  * BondMorseTest()
  *
  * The following code tests bond_style bond_morse in various ways:

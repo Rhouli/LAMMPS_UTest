@@ -1,4 +1,4 @@
-/* Skylar Rudolph
+/* Author: Author: Ryan Houlihan
  * BondFENEExpandTest()
  *
  * The following code tests bond_style bond_fene_expand in various ways:

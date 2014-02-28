@@ -1,4 +1,4 @@
-/* Ryan Houlihan
+/* Author: Ryan Houlihan
  * BondQuarticTest()
  *
  *

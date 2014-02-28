@@ -1,4 +1,4 @@
-/* Ryan Houlihan
+/* Author: Ryan Houlihan
  * BondTableTest():
  *
  * The following code tests bond_style bond_table in various ways:

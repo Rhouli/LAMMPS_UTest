@@ -1,4 +1,5 @@
 /**
+ * Author: Author: Ryan Houlihan
  * This tests the functionality of a bond with a class2 bond_style. 
  */
 

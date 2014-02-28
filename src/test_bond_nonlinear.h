@@ -1,5 +1,5 @@
 
-/* Ryan Houlihan
+/* Author: Ryan Houlihan
  * BondHarmonicTest()
  *
  *

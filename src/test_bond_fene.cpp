@@ -1,4 +1,4 @@
-/* Skylar Rudolph
+/* Author: Author: Ryan Houlihan
  * BondFENETest()
  *
  * The following code tests bond_style bond_fene in various ways:
