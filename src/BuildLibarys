@@ -1,0 +1,35 @@
+cd ../../../src/
+
+build="Obj_serial"
+machine="serial"
+mpi="STUBS/libmpi.a"
+GTESTDir="../tools/LAMMPSTest/src/GTest"
+# Build Stubs if not built
+if [ ! -e "$mpi" ]
+then
+	cd STUBS
+	make
+	cd ..
+fi
+
+# Build Serial if not built
+if [ -d "$build" ]
+then
+	make Makefile.lib
+	make -f Makefile.lib $machine
+else
+	make clean-all
+	make serial
+	make Makefile.lib
+	make -f Makefile.lib $machine
+fi
+
+cd $GTESTDir
+
+# Make GTest library
+make
+cd ..
+
+# Make Test Files
+make cleanAll
+

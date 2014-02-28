@@ -1,0 +1,35 @@
+***********************************************
+Author: Ryan Houlihan			      *
+README                                        *
+Instructions for using the testing library    *
+***********************************************
+
+##################################################
+To use the GTest class you must do the following:#
+##################################################
+
+-Download Gtest library and configure it as specified in there README file
+      -Consists of running ./configure and make
+-Modify the GTEST_DIR variable in the Makefile to point to your gtest directory and save your changes
+
+#########################################
+Now you can either do one of two things:#
+#########################################
+
+#########OPTION 1: Manual###############
+-Move to the lammps/src/Stubs directory
+      -run make to make the MPI stubs
+-Move to the lammps/src directory
+      -run make serial to make the serial version of lammps
+      -run make Makefile.lib to make the lammps library
+      -run make -f Makefile.lib serial 
+-Move to lammps/tools/LAMMPSTest/src/GTest directory
+      -run make to make the gtest library
+-Move to lammps/tools/LAMMPSTest/src directory
+      -use make to build the applicable src files
+
+#########OPTION 2: Automated#############
+-Open up BuildLibarys file
+      -Modify the GTESTDir variable to point to your GTEST directory
+      -Save the BuildLibrary file and run it as ./BuildLibrarys
+-You can now use make to build the applicable src files

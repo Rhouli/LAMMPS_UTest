@@ -1,0 +1,209 @@
+/**********************************************************************************************
+ **********************************************************************************************
+ **********************************************************************************************
+ *********************************	BOND_SYLE     *****************************************
+ **********************************************************************************************
+ **********************************************************************************************
+ **********************************************************************************************/
+
+
+/**********************************************************************************************/
+				        REQUIREMENTS
+/**********************************************************************************************/
+ 
+/* Must set atom to bond style before running test */ 
+
+void Input::atom_style()
+{
+  if (narg < 1) error->all(FLERR,"Illegal atom_style command");
+  if (domain->box_exist) 
+    error->all(FLERR,"Atom_style command after simulation box is defined");
+  atom->create_avec(arg[0],narg-1,&arg[1],lmp->suffix);
+}
+ 
+Bond styles can only be set for atom styles that allow bonds to be defined.
+
+************ bond_style = none ************
+
+************ bond_style = hybird ************
+
+************ bond_style = class2 ************
+
+************ bond_style = fene ************
+
+************ bond_style = fene/expand ************
+
+************ bond_style = harmonic ************
+
+************ bond_style = morse ************
+
+************ bond_style = nonlinear ************
+
+************ bond_style = quartic ************
+
+************ bond_style = table ************
+
+/**********************************************************************************************/
+					FUNCTION DEPENDENCYS
+/**********************************************************************************************/
+
+
+LAMMPS::LAMMPS()
+  input = new Input(this,narg,arg);
+
+===============>
+
+Input:Input()
+  else if (!strcmp(command,"bond_style")) bond_style();
+
+void Input::bond_style()
+{
+  if (narg < 1) error->all(FLERR,"Illegal bond_style command");
+  if (atom->avec->bonds_allow == 0) 
+    error->all(FLERR,"Bond_style command when no bonds allowed");
+
+  // Behavior analysis comment
+  fprintf(stderr, "arg[0] -> %s : lmp->suffix -> %s\n", arg[0], lmp->suffix);
+  
+  force->create_bond(arg[0],lmp->suffix);
+  if (force->bond) force->bond->settings(narg-1,&arg[1]);
+}
+
+===============>
+
+/* ----------------------------------------------------------------------
+   create a bond style, called from input script or restart file
+------------------------------------------------------------------------- */
+
+void Force::create_bond(const char *style, const char *suffix)
+{
+  delete [] bond_style;
+  if (bond) delete bond;
+
+  int sflag;
+  bond = new_bond(style,suffix,sflag);
+
+  if (sflag) {
+    char estyle[256];
+    sprintf(estyle,"%s/%s",style,suffix);
+    int n = strlen(estyle) + 1;
+    bond_style = new char[n];
+    strcpy(bond_style,estyle);
+  } else {
+    int n = strlen(style) + 1;
+    bond_style = new char[n];
+    strcpy(bond_style,style);
+  }
+}
+
+/* ----------------------------------------------------------------------
+   generate a bond class, fist with suffix appended
+------------------------------------------------------------------------- */
+
+Bond *Force::new_bond(const char *style, const char *suffix, int &sflag)
+{
+  if (suffix && lmp->suffix_enable) {
+    sflag = 1;
+    char estyle[256];
+    sprintf(estyle,"%s/%s",style,suffix);
+
+    if (0) return NULL;
+
+#define BOND_CLASS
+#define BondStyle(key,Class) \
+    else if (strcmp(estyle,#key) == 0) return new Class(lmp);
+#include "style_bond.h"
+#undef BondStyle
+#undef BOND_CLASS
+  }
+
+  sflag = 0;
+
+  if (strcmp(style,"none") == 0) return NULL;
+
+#define BOND_CLASS
+#define BondStyle(key,Class) \
+  else if (strcmp(style,#key) == 0) return new Class(lmp);
+#include "style_bond.h"
+#undef BOND_CLASS
+
+  else error->all(FLERR,"Invalid bond style");
+  return NULL;
+}
+
+====================>
+
+************ bond_style = none ************
+
+************ bond_style = hybird ************
+
+************ bond_style = class2 ************
+
+************ bond_style = fene ************
+
+************ bond_style = fene/expand ************
+
+************ bond_style = harmonic ************
+
+************ bond_style = morse ************
+
+************ bond_style = nonlinear ************
+
+************ bond_style = quartic ************
+
+************ bond_style = table ************
+
+/**********************************************************************************************
+ **********************************************************************************************
+ **********************************************************************************************
+ *********************************	BOND_COEFF    *****************************************
+ **********************************************************************************************
+ **********************************************************************************************
+ **********************************************************************************************/
+
+
+/**********************************************************************************************/
+				        REQUIREMENTS
+/**********************************************************************************************/
+Set bond_style and atom_style as specified above first
+
+This command must come after the simulation box is defined by a read_data, read_restart, or create_box command. 
+
+A bond style must be defined before any bond coefficients are set, either in the input script or in a data file.
+
+/**********************************************************************************************/
+					FUNCTION DEPENDENCYS
+/**********************************************************************************************/
+
+void Input::bond_coeff()
+{
+  if (domain->box_exist == 0)
+    error->all(FLERR,"Bond_coeff command before simulation box is defined");
+  if (force->bond == NULL) 
+    error->all(FLERR,"Bond_coeff command before bond_style is defined");
+  if (atom->avec->bonds_allow == 0) 
+    error->all(FLERR,"Bond_coeff command when no bonds allowed");
+  force->bond->coeff(narg,arg);
+}
+
+=================>
+
+************ bond_style = none ************
+
+************ bond_style = hybird ************
+
+************ bond_style = class2 ************
+
+************ bond_style = fene ************
+
+************ bond_style = fene/expand ************
+
+************ bond_style = harmonic ************
+
+************ bond_style = morse ************
+
+************ bond_style = nonlinear ************
+
+************ bond_style = quartic ************
+
+************ bond_style = table ************
